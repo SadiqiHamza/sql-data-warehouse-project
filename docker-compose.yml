@@ -1,0 +1,34 @@
+services:
+  postgres:
+    image: postgres:18
+    container_name: warehouse-postgres
+
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - data_warehouse_postgres_data:/var/lib/postgresql
+
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: warehouse-pgadmin
+
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+
+    ports:
+      - "8080:80"
+
+    depends_on:
+      - postgres
+
+
+volumes:
+  data_warehouse_postgres_data:
